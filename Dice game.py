@@ -19,7 +19,7 @@ def dice():
 def rules():
     txt1 = f"1. The {magenta}cost{reset} of rolling a dice {red}increases{reset} with each round chosen to play."
     txt2 = f"2. By getting a {red}1{reset} your turn will be ended without any change in your score."
-    txt3 = f"3. by getting a {yellow}6{reset} your cost of rolling will be reset."
+    txt3 = f"3. by getting a {yellow}6{reset} you'll get a bonus of {blue}4{reset}."
     return txt1, txt2, txt3
 
 
@@ -58,7 +58,7 @@ def score_formatting(score):
 
 def maximum_score():
     while True:
-        max_score = input("Set a goal: (the number that if you reach you'll win) ")
+        max_score = input("\nSet a goal: (the number that if you reach you'll win) ")
         if max_score.isdigit():
             max_score = int(max_score)
             if max_score > 0:
@@ -98,9 +98,13 @@ def players_turns(num_of_players):
                         print(f"{red}you got a 1! turn's over!{reset}")
                         break
                     elif roll == 6:
-                        round_of_the_turns = 0
+
+                        round_of_the_turns += 1
+                        player_scores[player_index] -= round_of_the_turns
                         player_scores[player_index] += roll
-                        print(f"\nyou got a {yellow}{roll}{reset}!")
+                        player_scores[player_index] += 4
+                        print(f"\nyou got a {yellow}{roll}{reset}!\n Number of moves (Cost) : {red}{round_of_the_turns}{reset}")
+                        print(f"Bonus added: {yellow}+4{reset}")
                         print(score_formatting(player_scores))
 
                     else:
@@ -117,6 +121,11 @@ def players_turns(num_of_players):
 
                 else:
                     print("Sorry didnt understand your input")
+
+    print(f"Your final score is {yellow}{score_formatting(player_scores)}{reset}")
+
+
+players_turns(number_of_players())
 
     print(f"Your final score is {yellow}{score_formatting(player_scores)}{reset}")
 
